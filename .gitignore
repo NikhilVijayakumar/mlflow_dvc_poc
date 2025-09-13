@@ -1,0 +1,25 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.env/
+.venv/
+env/
+venv/
+
+# DVC cache
+/.dvc/cache/
+
+# MLflow logs
+mlruns/
+
+# Model outputs
+models/
+!models/*.dvc   # keep DVC metafiles, ignore actual models
+
+# IDE files
+.idea/
+.vscode/
