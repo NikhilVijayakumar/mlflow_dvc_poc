@@ -11,7 +11,9 @@ env/
 venv/
 
 # DVC cache
-/.dvc/cache/
+.dvc/cache/
+.dvc/tmp/
+*.pkl
 
 # MLflow logs
 mlruns/
@@ -23,3 +25,6 @@ models/
 # IDE files
 .idea/
 .vscode/
+/minio/minio_data/
+/config/.env
+/.env

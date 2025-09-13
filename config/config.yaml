@@ -1,0 +1,23 @@
+paths:
+  raw_data: data/raw/iris.csv
+  processed_data: data/processed
+  train_data: data/processed/train.csv
+  test_data: data/processed/test.csv
+  model: models/log_reg_model.pkl
+  reports: reports/metrics.json
+
+training:
+  # Renamed from model_type to avoid Pydantic warning
+  model_name: "LogisticRegression"
+  max_iter: 200
+  test_size: 0.2
+  random_state: 42
+  # Added the missing required field
+  registered_model_name: "IrisLogisticRegression"
+
+mlflow:
+  experiment_name: "Iris Classification Experiments"
+
+minio:
+  endpoint: "localhost:9000"
+  bucket_name: "mlflow-dvc-bucket"

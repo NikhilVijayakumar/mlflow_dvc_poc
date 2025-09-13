@@ -1,0 +1,55 @@
+# Import variables from our single source of truth.
+# Now we can reference any value from config.yaml using ${vars...}
+vars:
+  - config/config.yaml
+
+stages:
+  get_data:
+    # The Python script no longer needs arguments; it will import the settings.
+    cmd: python src/data/get_data.py
+    deps:
+      - src/data/get_data.py
+      - src/config/settings.py # Add dependency on the settings loader
+    # The output path is now read directly from our config file.
+    outs:
+      - ${vars.paths.raw_data}
+
+  preprocess:
+    cmd: python src/data/preprocess.py
+    deps:
+      - src/data/preprocess.py
+      - src/config/settings.py
+      # Dependency is on the output of the previous stage.
+      - ${vars.paths.raw_data}
+    outs:
+      # These paths are also read from the config file.
+      - ${vars.paths.train_data}
+      - ${vars.paths.test_data}
+
+  train:
+    cmd: python src/models/train.py
+    deps:
+      - src/models/train.py
+      - src/config/settings.py
+      - ${vars.paths.train_data}
+      # CRITICAL: Add a dependency on the config file itself.
+      # Now, if you change a hyperparameter in config.yaml,
+      # DVC will know this stage needs to be re-run!
+      - config/config.yaml
+    outs:
+      # Standardized paths from config.
+      - ${vars.paths.model}
+    metrics:
+      # DVC can track metrics files. Use the standardized path.
+      - ${vars.paths.reports}:
+          cache: false # Don't cache metrics files with DVC storage
+
+  evaluate:
+    cmd: python src/models/evaluate.py
+    deps:
+      - src/models/evaluate.py
+      - src/config/settings.py
+      - ${vars.paths.model} # Depends on the trained model
+      - ${vars.paths.test_data}
+    # This stage has no versioned outputs, only metrics.
+    # The metrics will still be saved to the path defined in config.yaml.
