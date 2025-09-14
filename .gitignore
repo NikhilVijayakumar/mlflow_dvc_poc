@@ -28,3 +28,6 @@ models/
 /minio/minio_data/
 /config/.env
 /.env
+/data/
+/mlartifacts/
+/reports/

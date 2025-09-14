@@ -1,5 +1,7 @@
 import os
 from pathlib import Path
+from typing import Dict, Any
+
 import yaml
 from pydantic import BaseModel, DirectoryPath, FilePath
 from pydantic_settings import BaseSettings
@@ -29,6 +31,8 @@ class MinioConfig(BaseModel):
 
 class MlflowConfig(BaseModel):
     experiment_name: str
+    registered_model_description: str
+    model_version_tags: Dict[str, Any]
 
 class AppConfig(BaseModel):
     paths: PathsConfig

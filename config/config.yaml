@@ -12,11 +12,16 @@ training:
   max_iter: 200
   test_size: 0.2
   random_state: 42
-  # Added the missing required field
   registered_model_name: "IrisLogisticRegression"
+
 
 mlflow:
   experiment_name: "Iris Classification Experiments"
+  registered_model_description: "A logistic regression model for classifying Iris flower species. Trained as part of an MLOps assignment."
+  model_version_tags:
+    framework: "scikit-learn"
+    model_type: "Logistic Regression"
+    validation_status: "candidate"
 
 minio:
   endpoint: "localhost:9000"
