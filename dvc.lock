@@ -5,8 +5,8 @@ stages:
     deps:
     - path: src/config/settings.py
       hash: md5
-      md5: fc4d87254b15eef422f39ae2f374838b
-      size: 1863
+      md5: edd277b5d0594ed743cbb192a2395448
+      size: 2037
     - path: src/data/get_data.py
       hash: md5
       md5: 8f13b7cb81e1246596f22caafc24afb4
@@ -25,8 +25,8 @@ stages:
       size: 2928
     - path: src/config/settings.py
       hash: md5
-      md5: fc4d87254b15eef422f39ae2f374838b
-      size: 1863
+      md5: edd277b5d0594ed743cbb192a2395448
+      size: 2037
     - path: src/data/preprocess.py
       hash: md5
       md5: 512b63f3e0ae9c11fdf97e4061fe0af1
@@ -41,12 +41,12 @@ stages:
       md5: 2471b196482f8756104a193f2497d1e5
       size: 2358
   train_and_evaluate:
-    cmd: python -m src.training.train
+    cmd: python -m src.experiment.experiment_train
     deps:
     - path: config/config.yaml
       hash: md5
-      md5: bb10eadf9c3f4dc777eb1d294a6dbd7c
-      size: 839
+      md5: 2d23c39dbcf84ec18baa3ffe6b79f2ed
+      size: 1164
     - path: data/processed/test.csv
       hash: md5
       md5: f62eb59ab49d79c725d3982a6309f855
@@ -57,12 +57,12 @@ stages:
       size: 2358
     - path: src/config/settings.py
       hash: md5
-      md5: fc4d87254b15eef422f39ae2f374838b
-      size: 1863
-    - path: src/training/train.py
+      md5: edd277b5d0594ed743cbb192a2395448
+      size: 2037
+    - path: src/experiment/experiment_train.py
       hash: md5
-      md5: fe212e1a7cd18974d5c292d5df85125f
-      size: 5298
+      md5: 7e74c8bb07612fcaaa8fd795610e25c0
+      size: 5491
     - path: src/utils/io.py
       hash: md5
       md5: 318d0aa8c7e503ee076af8c50d3fde0e

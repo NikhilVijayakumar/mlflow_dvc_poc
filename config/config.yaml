@@ -8,7 +8,7 @@ paths:
 
 training:
   # Renamed from model_type to avoid Pydantic warning
-  model_name: "LogisticRegression"
+  model_name: "IrisLogisticRegression"
   max_iter: 200
   test_size: 0.2
   random_state: 42
@@ -16,12 +16,19 @@ training:
 
 
 mlflow:
-  experiment_name: "Iris Classification Experiments"
+  experiment_name: "Iris Training  Experiments"
+  prediction_experiment_name: "Iris Prediction Runs"
   registered_model_description: "A logistic regression model for classifying Iris flower species. Trained as part of an MLOps assignment."
+  commit_message_template: "[Experiment] Run pipeline and version results"
   model_version_tags:
     framework: "scikit-learn"
     model_type: "Logistic Regression"
     validation_status: "candidate"
+
+prediction:
+  model_name: "IrisLogisticRegression"
+  model_stage: "Staging" # e.g., "Staging" or "Production". Use "None" to get the latest version.
+  output_path: "reports/predictions.csv"
 
 minio:
   endpoint: "localhost:9000"
