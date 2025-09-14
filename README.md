@@ -51,12 +51,17 @@ mlflow\_dvc\_poc/
 ├── reports/                 \# Final evaluation reports (tracked by DVC)
 │
 ├── src/                     \# All Python source code
-│   ├── config/settings.py   \# Pydantic settings loader for type-safe config
+│   ├── config/
+│   │   ├── settings.py       \# Pydantic settings loader for type-safe config
 │   ├── data/                \# Data ingestion and preprocessing scripts
-│   ├── models/              \# Experiment script (train + evaluate)
+│   │   ├── get_data.py
+│   │   ├── preprocess.py
+│   ├── experiment/              \# Experiment script 
+│   │   ├── experiment_runner.py
 │   ├── scripts/             \# Helper scripts for setup
-│   │   └── setup\_dvc\_remote.py
-│   └── utils/               \# I/O utility functions
+│   │   └── setup_dvc_remote.py
+│   ├──utils/               \# I/O utility functions
+│   │  ├── io.py
 │
 ├── dvc.yaml                 \# DVC pipeline definition (driven by config.yaml)
 ├── requirements.txt         \# Python dependencies
@@ -70,13 +75,13 @@ mlflow\_dvc\_poc/
 ## ⚙️ Setup and Installation
 
 ### Prerequisites
-* Python 3.9+
+* Python 3.12+
 * Git
 * Docker and Docker Compose
 
 ### 1. Clone & Install
 ```bash
-git clone [https://github.com/yourname/mlflow_dvc_poc.git](https://github.com/yourname/mlflow_dvc_poc.git)
+git clone [https://github.com/NikhilVijayakumar/mlflow_dvc_poc.git](https://github.com/NikhilVijayakumar/mlflow_dvc_poc.git)
 cd mlflow_dvc_poc
 pip install -r requirements.txt
 ````
@@ -132,7 +137,7 @@ The DVC pipeline consists of three stages, all dynamically configured by `config
 
 1.  `get_data`: Ingests the raw Iris dataset.
 2.  `preprocess`: Splits the raw data into training and test sets.
-3.  `train_and_evaluate`: A single, atomic stage that runs a full experiment: trains the model, evaluates it on the test set, and logs everything to a **single MLflow run**.
+3.  `experiment_runner`: A single, atomic stage that runs a full experiment: trains the model, evaluates it on the test set, and logs everything to a **single MLflow run**.
 
 ### Execute the Full Pipeline
 

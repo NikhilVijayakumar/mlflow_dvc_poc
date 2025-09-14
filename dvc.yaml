@@ -24,10 +24,10 @@ stages:
   # This is our single, atomic stage for the experiment
   train_and_evaluate:
     # ✅ Corrected path to your training script
-    cmd: python -m src.training.train
+    cmd: python -m src.experiment.experiment_runner
     deps:
       # ✅ Corrected path to your training script
-      - src/training/train.py
+      - src/experiment/experiment_runner.py
       - src/config/settings.py
       - src/utils/io.py
       - ${paths.train_data}
