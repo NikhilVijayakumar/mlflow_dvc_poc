@@ -9,6 +9,11 @@ from pydantic_settings import BaseSettings
 # Define project's root directory
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 
+class PredictionConfig(BaseModel):
+    model_name: str
+    model_stage: str
+    output_path: str
+
 class PathsConfig(BaseModel):
     """Pydantic model for file paths."""
     raw_data: str
@@ -31,7 +36,9 @@ class MinioConfig(BaseModel):
 
 class MlflowConfig(BaseModel):
     experiment_name: str
+    prediction_experiment_name: str
     registered_model_description: str
+    commit_message_template: str
     model_version_tags: Dict[str, Any]
 
 class AppConfig(BaseModel):
@@ -41,7 +48,7 @@ class AppConfig(BaseModel):
     minio: MinioConfig
 
 class EnvConfig(BaseSettings):
-    MLFLOW_TRACKING_URI: str = "http://127.0.0.1:5000"
+    MLFLOW_TRACKING_URI: str
     MINIO_ROOT_USER: str
     MINIO_ROOT_PASSWORD: str
 

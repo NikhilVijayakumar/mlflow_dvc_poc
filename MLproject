@@ -10,7 +10,8 @@ entry_points:
 
   # An entry point for our DVC training pipeline
   train:
-    command: "python -m src.scripts.version_experiment"
+    command:   "python -m src.scripts.version_experiment"
+
 
   # A NEW entry point just for running predictions
   predict:

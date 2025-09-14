@@ -1,6 +1,8 @@
-#src.training.train.py
-
+#src.experiment.experiment_train.py
+import os
 import pickle
+import getpass
+
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
@@ -21,7 +23,7 @@ from src.config.settings import app_config, env_config
 from src.utils.io import save_json
 
 
-class ExperimentRunner:
+class ExperimentTrain:
 
     def __init__(self):
         print("🚀 Initializing Experiment Runner...")
@@ -94,8 +96,8 @@ class ExperimentRunner:
 
         mlflow.log_dict(test_report_dict, "classification_report.json")
 
-    def _log_and_register_model(self,run_id):
-        print(f"   - Logging and registering model as '{self.params.registered_model_name}'...")
+    def _log_and_register_model(self):
+        print(f"   - Logging and registering model as '{self.params.registered_model_name}' ...")
 
         # ✅ Create the signature and input example
         signature = infer_signature(self.X_test, self.test_preds)
@@ -103,42 +105,44 @@ class ExperimentRunner:
 
         mlflow.sklearn.log_model(
             sk_model=self.model,
-            artifact_path="classifier",
+            name="classifier",
             signature=signature,
-            input_example=input_example
+            input_example=input_example,
+            registered_model_name=self.params.registered_model_name,
         )
 
-        client = mlflow.MlflowClient()
-        model_uri = f"runs:/{run_id}/model"
-
-        new_version = client.create_model_version(
-            name=self.params.registered_model_name,
-            source=model_uri,
-            run_id=run_id,
-            description=self.mlflow_config.registered_model_description,
-            tags=self.mlflow_config.model_version_tags
-        )
-
-        print(f"   - ✅ Registered model version {new_version.version}")
+        # run_id = os.environ["MLFLOW_RUN_ID"]
+        # client = mlflow.MlflowClient()
+        # model_uri = f"runs:/{run_id}/model"
+        #
+        # new_version = client.create_model_version(
+        #     name=self.params.registered_model_name,
+        #     source=model_uri,
+        #     run_id=run_id,
+        #     description=self.mlflow_config.registered_model_description,
+        #     tags=self.mlflow_config.model_version_tags
+        # )
+        #
+        # print(f"   - ✅ Registered model version {new_version.version}")
 
         with open(self.paths.model, "wb") as f:
             pickle.dump(self.model, f)
 
     def run(self):
         self._load_data()
-
         with mlflow.start_run() as run:
             print(f"   - MLflow Run ID: {run.info.run_id}")
             mlflow.log_params(self.params.dict())
+            mlflow.set_tag("user", getpass.getuser())
             self._log_datasets()
             self._train_model()
             self._evaluate_and_log_metrics()
-            self._log_and_register_model(run.info.run_id)
+            self._log_and_register_model()
 
         print("🏁 Finished Stage: Run Full Experiment")
 
 
 if __name__ == "__main__":
-    runner = ExperimentRunner()
+    runner = ExperimentTrain()
     runner.run()
 

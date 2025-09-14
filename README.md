@@ -57,7 +57,7 @@ mlflow\_dvc\_poc/
 │   │   ├── get_data.py
 │   │   ├── preprocess.py
 │   ├── experiment/              \# Experiment script 
-│   │   ├── experiment_runner.py
+│   │   ├── experiment_train.py
 │   ├── scripts/             \# Helper scripts for setup
 │   │   └── setup_dvc_remote.py
 │   ├──utils/               \# I/O utility functions

@@ -1,0 +1,15 @@
+# python_env.yaml
+python: "3.12.10"
+
+# Runtime dependencies from your project
+dependencies:
+  - mlflow == 3.3.2
+  - dvc[s3] == 3.50.1
+  - scikit-learn == 1.7.2
+  - pandas == 2.3.2
+  - pydantic == 2.11.9
+  - pydantic-settings == 2.10.1
+  - python-dotenv == 1.1.1
+  - pyyaml == 6.0.2
+  - pickle-mixin == 1.0.2
+  - minio == 7.2.16
