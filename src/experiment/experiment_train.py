@@ -103,13 +103,15 @@ class ExperimentTrain:
         signature = infer_signature(self.X_test, self.test_preds)
         input_example = self.X_test.head()
 
-        mlflow.sklearn.log_model(
+        info =mlflow.sklearn.log_model(
             sk_model=self.model,
             name="classifier",
             signature=signature,
             input_example=input_example,
             registered_model_name=self.params.registered_model_name,
         )
+        mlflow.set_logged_model_tags(info.model_id,self.mlflow_config.model_version_tags)
+
 
         # run_id = os.environ["MLFLOW_RUN_ID"]
         # client = mlflow.MlflowClient()
