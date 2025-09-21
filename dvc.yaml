@@ -1,0 +1,40 @@
+# Import variables from our single source of truth.
+vars:
+  - config/config.yaml
+
+stages:
+  get_data:
+    cmd: python -m src.data.get_data
+    deps:
+      - src/data/get_data.py
+      - src/config/settings.py
+    outs:
+      - ${paths.raw_data}
+
+  preprocess:
+    cmd: python -m src.data.preprocess
+    deps:
+      - src/data/preprocess.py
+      - src/config/settings.py
+      - ${paths.raw_data}
+    outs:
+      - ${paths.train_data}
+      - ${paths.test_data}
+
+  # This is our single, atomic stage for the experiment
+  train_and_evaluate:
+    # ✅ Corrected path to your training script
+    cmd: python -m src.experiment.experiment_train
+    deps:
+      # ✅ Corrected path to your training script
+      - src/experiment/experiment_train.py
+      - src/config/settings.py
+      - src/utils/io.py
+      - ${paths.train_data}
+      - ${paths.test_data}
+      - config/config.yaml
+    outs:
+      - ${paths.model}
+    metrics:
+      - ${paths.reports}:
+          cache: false

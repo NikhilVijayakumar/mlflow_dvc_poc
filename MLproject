@@ -1,0 +1,18 @@
+# MLproject
+name: MLOps Iris Pipeline
+
+python_env: python_env.yaml
+
+entry_points:
+ # An entry point for our DVC training pipeline
+  setup:
+    command: "python -m src.scripts.mlops_setup"
+
+  # An entry point for our DVC training pipeline
+  train:
+    command:   "python -m src.scripts.version_experiment"
+
+
+  # A NEW entry point just for running predictions
+  predict:
+    command: "python -m src.experiment.experiment_predict"
